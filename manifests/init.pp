@@ -45,6 +45,6 @@ class perlbrew (
 
   exec { 'install_modules':
     command => "/root/perl5/perlbrew/bin/cpanm ${perl_modules}",
-    require => ['install_cpanm'],
+    require => Exec['install_cpanm'],
   }
 }
