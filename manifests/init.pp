@@ -19,6 +19,7 @@ class perlbrew (
   exec { 'install_perlbrew':
     command => '/usr/bin/curl -L http://install.perlbrew.pl | /bin/bash; /root/perl5/perlbrew/bin/perlbrew init',
     creates => '/root/perl5/perlbrew/bin/perlbrew',
+    timeout => '0',
   }
 
   define install_perl {
@@ -27,6 +28,7 @@ class perlbrew (
       creates => "/root/perl5/perls/${name}/bin/perl",
       require => Exec['install_perlbrew'],
       before  => Exec['set_perl'],
+      timeout => '0',
     }
   }
 
@@ -41,10 +43,12 @@ class perlbrew (
     command => '/root/perl5/perlbrew/bin/perlbrew install-cpanm',
     require => Exec['set_perl'],
     unless  => '/usr/bin/test -f /root/perl5/perlbrew/bin/cpanm',
+    timeout => '0',
   }
 
   exec { 'install_modules':
     command => "/root/perl5/perlbrew/bin/cpanm ${perl_modules}",
     require => Exec['install_cpanm'],
+    timeout => '0',
   }
 }
