@@ -34,13 +34,13 @@ class perlbrew (
 
   exec { 'set_perl':
     command => "/root/perl5/perlbrew/bin/perlbrew switch perl-${perl_use}",
-    unless  => "test -f /root/perl5/perls/${name}/bin/perl",
+    unless  => "/usr/bin/test -f /root/perl5/perls/${name}/bin/perl",
   }
 
   exec { 'install_cpanm':
     command => '/root/perl5/perlbrew/bin/perlbrew install-cpanm',
     require => Exec['set_perl'],
-    unless  => 'test -f /root/perl5/perlbrew/bin/cpanm',
+    unless  => '/usr/bin/test -f /root/perl5/perlbrew/bin/cpanm',
   }
 
   exec { 'install_modules':
