@@ -1,7 +1,7 @@
 class perlbrew (
 
-  $perl
-  $perl_use
+  $perl,
+  $perl_use,
   $perl_modules
 
   ) {
