@@ -8,17 +8,17 @@ class perlbrew (
 
   package { 'build-essential':
     ensure  => latest,
-  }
+    before  => Exec['install_perlbrew'],
+ }
 
   package { 'curl':
     ensure  => latest,
+    before  => Exec['install_perlbrew'],
   }
 
   exec { 'install_perlbrew':
     command => '/usr/bin/curl -L http://install.perlbrew.pl | /bin/bash; /root/perl5/perlbrew/bin/perlbrew init',
     creates => '/root/perl5/perlbrew/bin/perlbrew',
-    require => Package['build-essential'],
-    require => Package['curl'],
   }
 
   define install_perl {
