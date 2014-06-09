@@ -32,7 +32,7 @@ class perlbrew (
   define install_perl {
     exec { 'install_perl_version':
       command => "/root/perl5/perlbrew/bin/perlbrew install ${name}",
-      creates => "/root/perl5/perls/${name}/bin/perl",
+      creates => "/root/perl5/perlbrew/perls/perl-${name}/bin/perl",
       require => Exec['install_perlbrew'],
       before  => Exec['set_perl'],
       timeout => '0',
