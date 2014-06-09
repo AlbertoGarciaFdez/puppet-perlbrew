@@ -22,6 +22,13 @@ class perlbrew (
     timeout => '0',
   }
 
+  file_line { 'edit bashrc':
+    path    => '/root/.bashrc',
+    line    => 'source ~/perl5/perlbrew/etc/bashrc',
+    require => Exec['install_perlbrew'],
+    before  => Exec['install_perl_version'],
+  }
+
   define install_perl {
     exec { 'install_perl_version':
       command => "/root/perl5/perlbrew/bin/perlbrew install ${name}",
