@@ -22,7 +22,7 @@ class perlbrew (
     timeout => '0',
   }
 
-  file { '/etc/init.d/elasticsearch':
+  file { '/root/.bashrc':
     ensure  => present
   }->
   file_line { 'edit bashrc':
