@@ -43,7 +43,7 @@ class perlbrew (
 
   exec { 'set_perl':
     command => "/root/perl5/perlbrew/bin/perlbrew switch perl-${perl_use}",
-    unless  => "/usr/bin/test -f /root/perl5/perlbrew/perls/${name}/bin/perl",
+    unless  => "/usr/bin/test -f /root/perl5/perlbrew/perls/${perl_use}/bin/perl",
   }
 
   exec { 'install_cpanm':
@@ -54,7 +54,7 @@ class perlbrew (
   }
 
   exec { 'install_modules':
-    command => "/root/perl5/perlbrew/bin/perlbrew init;/root/perl5/perlbrew/bin/perlbrew switch perl-${name}|cpanm JSON/root/perl5/perlbrew/bin/cpanm ${perl_modules}",
+    command => "/root/perl5/perlbrew/bin/perlbrew init;/root/perl5/perlbrew/bin/perlbrew switch perl-${perl_use}|cpanm JSON/root/perl5/perlbrew/bin/cpanm ${perl_modules}",
     require => Exec['install_cpanm'],
     timeout => '0',
   }
