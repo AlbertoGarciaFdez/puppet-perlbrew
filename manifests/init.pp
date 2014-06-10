@@ -17,17 +17,14 @@ class perlbrew (
   }
 
   exec { 'install_perlbrew':
-    command => '/usr/bin/curl -L http://install.perlbrew.pl | /bin/bash; /root/perl5/perlbrew/bin/perlbrew init',
+    command => '/usr/bin/curl -L http://install.perlbrew.pl | /bin/bash',
     creates => '/root/perl5/perlbrew/bin/perlbrew',
     timeout => '0',
   }
 
-  file { '/root/.bashrc':
-    ensure  => present
-  }->
-  file_line { 'edit bashrc':
-    path    => '/root/.bashrc',
-    line    => 'source ~/perl5/perlbrew/etc/bashrc',
+  exec { 'set source':
+    command => 'echo \'source ~/perl5/perlbrew/etc/bashrc\' >> /root/.bashrc',
+    unless  => 'grep \'source ~/perl5/perlbrew/etc/bashrc\' /root/.bashrc; /root/perl5/perlbrew/bin/perlbrew init',
     require => Exec['install_perlbrew'],
     before  => Exec['install_perl_version'],
   }
@@ -46,7 +43,7 @@ class perlbrew (
 
   exec { 'set_perl':
     command => "/root/perl5/perlbrew/bin/perlbrew switch perl-${perl_use}",
-    unless  => "/usr/bin/test -f /root/perl5/perls/${name}/bin/perl",
+    unless  => "/usr/bin/test -f /root/perl5/perlbrew/perls/${name}/bin/perl",
   }
 
   exec { 'install_cpanm':
@@ -57,7 +54,7 @@ class perlbrew (
   }
 
   exec { 'install_modules':
-    command => "/root/perl5/perlbrew/bin/cpanm ${perl_modules}",
+    command => "/root/perl5/perlbrew/bin/perlbrew init;/root/perl5/perlbrew/bin/perlbrew switch perl-${name}|cpanm JSON/root/perl5/perlbrew/bin/cpanm ${perl_modules}",
     require => Exec['install_cpanm'],
     timeout => '0',
   }
