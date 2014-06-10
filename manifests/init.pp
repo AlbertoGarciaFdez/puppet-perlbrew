@@ -23,8 +23,8 @@ class perlbrew (
   }
 
   exec { 'set source':
-    command => 'echo \'source ~/perl5/perlbrew/etc/bashrc\' >> /root/.bashrc',
-    unless  => 'grep \'source ~/perl5/perlbrew/etc/bashrc\' /root/.bashrc; /root/perl5/perlbrew/bin/perlbrew init',
+    command => '/bin/echo \'source ~/perl5/perlbrew/etc/bashrc\' >> /root/.bashrc',
+    unless  => '/bin/grep \'source ~/perl5/perlbrew/etc/bashrc\' /root/.bashrc; /root/perl5/perlbrew/bin/perlbrew init',
     require => Exec['install_perlbrew'],
     before  => Exec['install_perl_version'],
   }
