@@ -2,16 +2,12 @@ class perlbrew (
 
   $perl,
   $perl_use,
-  $perl_modules
+  $perl_modules,
+  $debian_packages
 
   ) {
 
-  package { 'build-essential':
-    ensure  => latest,
-    before  => Exec['install_perlbrew'],
- }
-
-  package { 'curl':
+  package { $debian_packages:
     ensure  => latest,
     before  => Exec['install_perlbrew'],
   }
