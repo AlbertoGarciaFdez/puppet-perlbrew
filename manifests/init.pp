@@ -40,7 +40,7 @@ class perlbrew (
 
   define install_perl {
     exec { "install_perl_version-${name}":
-      command   => "/bin/sh -c \'perlbrew init\';/bin/sh -c \'perlbrew install ${name}\'",
+      command   => "/bin/sh -c \'perlbrew init\' && /bin/sh -c \'perlbrew install ${name}\'",
       user      => $user,
       creates   => "/home/$user/perl5/perlbrew/perls/perl-${name}/bin/perl",
       provider  => 'posix',
