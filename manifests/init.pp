@@ -10,14 +10,14 @@ class perlbrew (
 
   package { $debian_packages:
     ensure  => latest,
-    before  => Exec['set_source'],
   }
 
   exec { 'install_perlbrew':
     command   => 'sudo apt-get install perlbrew -y',
     provider  => 'shell',
     user      => $user,
-    creates   => '/usr/bin/perlbrew'
+    creates   => '/usr/bin/perlbrew',
+    require   => Package[$debian_packages],
   }
 
   exec { 'set_environment':
