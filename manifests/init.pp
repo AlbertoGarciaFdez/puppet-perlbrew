@@ -22,10 +22,10 @@ class perlbrew (
 
   exec { 'set_environment':
     cwd       => "/home/${user}",
-    command   => '\'perlbrew init\'',
+    command   => '/bin/sh -c \'perlbrew init\'',
     creates   => "/home/$user/perl5",
     user      => $user,
-    provider  => 'shell',
+    provider  => 'posix',
     require   => Exec['install_perlbrew'],
   }
 
