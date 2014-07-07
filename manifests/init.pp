@@ -40,12 +40,13 @@ class perlbrew (
 
   define install_perl {
     exec { "install_perl_version-${name}":
-      command   => "/bin/sh -c \'perlbrew init\' && /bin/sh -c \'perlbrew install ${name}\'",
-      user      => $user,
-      creates   => "/home/$user/perl5/perlbrew/perls/perl-${name}/bin/perl",
-      provider  => 'posix',
-      require   => Exec['set_source'],
-      timeout   => '0',
+      command     => "/bin/sh -c \'perlbrew init\' && /bin/sh -c \'perlbrew install ${name}\'",
+      user        => $user,
+      environment => ["HOME=/home/${user}"],
+      creates     => "/home/$user/perl5/perlbrew/perls/perl-${name}/bin/perl",
+      provider    => 'posix',
+      require     => Exec['set_source'],
+      timeout     => '0',
     }
   }
 
