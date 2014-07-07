@@ -17,6 +17,7 @@ class perlbrew (
     command   => 'sudo apt-get install perlbrew -y',
     provider  => 'shell',
     user      => $user,
+    creates   => '/usr/bin/perlbrew'
   }
 
   exec { 'set_source':
@@ -46,7 +47,7 @@ class perlbrew (
     command   => "perlbrew switch perl-${perl_use}",
     provider  => 'shell',
     user      => $user,
-    unless    => "/usr/bin/test -f /root/perl5/perlbrew/perls/${perl_use}/bin/perl",
+    creates   => "/root/perl5/perlbrew/perls/${perl_use}/bin/perl",
   }
 
   exec { 'install_cpanm':
@@ -54,7 +55,7 @@ class perlbrew (
     require   => Exec['set_perl'],
     user      => $user,
     provider  => 'shell',
-    unless    => "/usr/bin/test -f /home/${user}/perl5/perlbrew/bin/cpanm",
+    creates   => "/home/${user}/perl5/perlbrew/bin/cpanm",
     timeout   => '0',
   }
 
