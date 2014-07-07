@@ -56,6 +56,7 @@ class perlbrew (
     provider  => 'shell',
     user      => $user,
     creates   => "/root/perl5/perlbrew/perls/${perl_use}/bin/perl",
+    require   => Install_perl[$perl],
   }
 
   exec { 'install_cpanm':
