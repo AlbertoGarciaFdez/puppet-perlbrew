@@ -20,14 +20,22 @@ class perlbrew (
     creates   => '/usr/bin/perlbrew'
   }
 
-  exec { 'set_source':
+  exec { 'set_environment':
     cwd       => "/home/${user}",
-    command   => "perlbrew init; /bin/echo \'source ~/perl5/perlbrew/etc/bashrc\' >> /home/${user}/.bashrc",
-    unless    => "/bin/grep \'source ~/perl5/perlbrew/etc/bashrc\' /home/$user/.bashrc",
+    command   => "perlbrew init",
+    creates   => "/home/$user/perl5",
     user      => $user,
     provider  => 'shell',
     require   => Exec['install_perlbrew'],
-    before    => Exec['install_perl_version'],
+  }
+
+  exec {'set_source':
+    cwd       => "/home/${user}",
+    command   => "/bin/echo \'source ~/perl5/perlbrew/etc/bashrc\' >> /home/${user}/.bashrc",
+    unless    => "/bin/grep \'source ~/perl5/perlbrew/etc/bashrc\' /home/$user/.bashrc",
+    user      => $user,
+    provider  => 'shell',
+    require   => Exec['set_environment'],
   }
 
   define install_perl {
@@ -36,7 +44,7 @@ class perlbrew (
       user      => $user,
       creates   => "/home/$user/perl5/perlbrew/perls/perl-${name}/bin/perl",
       provider  => 'shell',
-      before    => Exec['set_perl'],
+      require   => Exec['set_source'],
       timeout   => '0',
     }
   }
