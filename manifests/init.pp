@@ -14,7 +14,7 @@ class perlbrew (
   }
 
   exec { 'install_perlbrew':
-    command   => 'sudo apt-get install perlbrew',
+    command   => 'sudo apt-get install perlbrew -y',
     provider  => 'shell',
     user      => $user,
   }
