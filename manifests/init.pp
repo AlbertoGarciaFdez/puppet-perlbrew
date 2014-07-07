@@ -40,10 +40,10 @@ class perlbrew (
 
   define install_perl {
     exec { 'install_perl_version':
-      command   => "perlbrew install ${name}",
+      command   => "/bin/sh -c \'perlbrew install ${name}\'",
       user      => $user,
       creates   => "/home/$user/perl5/perlbrew/perls/perl-${name}/bin/perl",
-      provider  => 'shell',
+      provider  => 'posix',
       require   => Exec['set_source'],
       timeout   => '0',
     }
@@ -52,26 +52,26 @@ class perlbrew (
   install_perl { $perl:}
 
   exec { 'set_perl':
-    command   => "perlbrew switch perl-${perl_use}",
-    provider  => 'shell',
+    command   => "/bin/sh -c \'perlbrew switch perl-${perl_use}\'",
+    provider  => 'posix',
     user      => $user,
     creates   => "/root/perl5/perlbrew/perls/${perl_use}/bin/perl",
     require   => Install_perl[$perl],
   }
 
   exec { 'install_cpanm':
-    command   => 'perlbrew install-cpanm',
+    command   => '/bin/sh -c \'perlbrew install-cpanm\'',
     require   => Exec['set_perl'],
     user      => $user,
-    provider  => 'shell',
+    provider  => 'posix',
     creates   => "/home/${user}/perl5/perlbrew/bin/cpanm",
     timeout   => '0',
   }
 
   exec { 'install_modules':
-    command   => "cpanm ${perl_modules}",
+    command   => "/bin/sh -c \'cpanm ${perl_modules}\'",
     user      => $user,
-    provider  => 'shell',
+    provider  => 'posix',
     require   => Exec['install_cpanm'],
     timeout   => '0',
   }
