@@ -23,7 +23,7 @@ class perlbrew (
   exec { 'set_environment':
     cwd       => "/home/${user}",
 #    command   => '/bin/sh -c perlbrew init',
-    command   => "su - ${user} -c \'perlbrew init\'"
+    command   => "su - ${user} -c \'perlbrew init\'",
     creates   => "/home/$user/perl5",
 #    user      => $user,
 #    provider  => 'posix',
