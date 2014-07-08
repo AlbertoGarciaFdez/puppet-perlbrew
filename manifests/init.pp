@@ -36,20 +36,19 @@ class perlbrew (
     require   => Exec['set_environment'],
   }
 
-  define install_perl ($user_define) {
+  define install_perl {
     exec { "install_perl_version-${name}}":
-#      command     => "/bin/sh -c \'perlbrew init && perlbrew install ${name}\'",
-      command     => "su - ${user_define} -c \'perlbrew init && perlbrew install ${name}\'",
-#      user        => $user,
-#      environment => "HOME=/home/${user}",
+      command     => "/bin/sh -c \'perlbrew init && perlbrew install ${name}\'",
+      user        => $perlbrew::user,
+      environment => "HOME=/home/${user}",
       creates     => "/home/${user_define}/perl5/perlbrew/perls/perl-${name}/bin/perl",
-#      provider    => 'posix',
+      provider    => 'posix',
       require     => Exec['set_source'],
       timeout     => '0',
     }
   }
 
-  install_perl { $perl: user_define => ${user},}
+  install_perl { $perl:}
 
   exec { 'set_perl':
     command   => "/bin/sh -c \'perlbrew switch perl-${perl_use}\'",
