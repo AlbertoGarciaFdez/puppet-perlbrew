@@ -38,7 +38,7 @@ class perlbrew (
 
   define install_perl {
     exec { "install_perl_version-${name}}":
-      command     => "su - $perlbrew::user -c \'perlbrew init && perlbrew install ${name}\'",
+      command     => "su - $perlbrew::user -c \'/usr/bin/perlbrew init && /usr/bin/perlbrew install ${name}\'",
       user        => $perlbrew::user,
       environment => "HOME=/home/${perlbrew::user}",
       creates     => "/home/${perlbrew::user}/perl5/perlbrew/perls/perl-${name}/bin/perl",
