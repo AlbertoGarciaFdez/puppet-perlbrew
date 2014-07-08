@@ -39,7 +39,7 @@ class perlbrew (
   define install_perl {
     exec { "install_perl_version-${name}}":
       command     => "/bin/su - $perlbrew::user -c \'/usr/bin/perlbrew init && /usr/bin/perlbrew install ${name}\'",
-      creates     => "/home/${perlbrew::user}/perl5/perlbrew/perls/${name}/bin/perl",
+      creates     => "/home/${perlbrew::user}/perl5/perlbrew/perls/perl-${name}/bin/perl",
       require     => Exec['set_source'],
       timeout     => '0',
     }
