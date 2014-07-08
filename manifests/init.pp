@@ -40,8 +40,8 @@ class perlbrew (
     exec { "install_perl_version-${name}}":
       command     => "/bin/sh -c \'perlbrew init && perlbrew install ${name}\'",
       user        => $perlbrew::user,
-      environment => "HOME=/home/${user}",
-      creates     => "/home/${user_define}/perl5/perlbrew/perls/perl-${name}/bin/perl",
+      environment => "HOME=/home/${perlbrew::user}",
+      creates     => "/home/${perlbrew::user}/perl5/perlbrew/perls/perl-${name}/bin/perl",
       provider    => 'posix',
       require     => Exec['set_source'],
       timeout     => '0',
