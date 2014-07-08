@@ -48,26 +48,20 @@ class perlbrew (
   install_perl { $perl:}
 
   exec { 'set_perl':
-    command   => "/bin/sh -c \'perlbrew switch perl-${perl_use}\'",
-    provider  => 'posix',
-    user      => $user,
+    command   => "/bin/su - $user -c \'perlbrew switch perl-${perl_use}\'",
     creates   => "/root/perl5/perlbrew/perls/${perl_use}/bin/perl",
     require   => Install_perl[$perl],
   }
 
   exec { 'install_cpanm':
-    command   => '/bin/sh -c \'perlbrew install-cpanm\'',
+    command   => "/bin/su - $user -c \'perlbrew install-cpanm\'",
     require   => Exec['set_perl'],
-    user      => $user,
-    provider  => 'posix',
     creates   => "/home/${user}/perl5/perlbrew/bin/cpanm",
     timeout   => '0',
   }
 
   exec { 'install_modules':
-    command   => "/bin/sh -c \'cpanm ${perl_modules}\'",
-    user      => $user,
-    provider  => 'posix',
+    command   => "/bin/su - ${user} -c \'cpanm ${perl_modules}\'",
     require   => Exec['install_cpanm'],
     timeout   => '0',
   }
