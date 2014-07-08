@@ -42,7 +42,7 @@ class perlbrew (
     exec { "install_perl_version-${name}":
       command     => "/bin/sh -c \'perlbrew init && perlbrew install ${name}\'",
       user        => $user,
-      environment => ["HOME=/home/rentalia"],
+      environment => "HOME=/home/${user}",
       creates     => "/home/$user/perl5/perlbrew/perls/perl-${name}/bin/perl",
       provider    => 'posix',
       require     => Exec['set_source'],
