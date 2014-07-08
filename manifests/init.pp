@@ -21,7 +21,7 @@ class perlbrew (
   exec { 'set_environment':
     cwd       => "/home/${user}",
     command   => '/bin/sh -c perlbrew init',
-    creates   => "/home/$user/perl5",
+    creates   => "/home/${user}/perl5",
     user      => $user,
     provider  => 'posix',
     require   => Exec['install_perlbrew'],
@@ -39,10 +39,7 @@ class perlbrew (
   define install_perl {
     exec { "install_perl_version-${name}}":
       command     => "/bin/su - $perlbrew::user -c \'/usr/bin/perlbrew init && /usr/bin/perlbrew install ${name}\'",
-#      user        => $perlbrew::user,
-#      environment => "HOME=/home/${perlbrew::user}",
-      creates     => "/home/${perlbrew::user}/perl5/perlbrew/perls/perl-${name}/bin/perl",
-#      provider    => 'posix',
+      creates     => "/home/${perlbrew::user}/perl5/perlbrew/perls/${name}/bin/perl",
       require     => Exec['set_source'],
       timeout     => '0',
     }
