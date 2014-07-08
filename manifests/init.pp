@@ -61,7 +61,7 @@ class perlbrew (
   }
 
   exec { 'install_modules':
-    command   => "/bin/su - ${user} -c \'cpanm ${perl_modules}\'",
+    command   => "/bin/su - $user -c \'cd $HOME && cpanm ${perl_modules}\'",
     require   => Exec['install_cpanm'],
     timeout   => '0',
   }
