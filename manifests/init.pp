@@ -47,6 +47,7 @@ class perlbrew (
   exec { 'set_perl':
     command   => "/bin/su $user -c - \"source /home/${user}/perl5/perlbrew/etc/bashrc; perlbrew switch perl-${perl_use}\"",
     require   => Install_perl[$perl],
+    unless    => "/bin/su $user -c - \"source /home/${user}/perl5/perlbrew/etc/bashrc; which perl | grep ${perl_use}\"",
   }
 
   exec { 'install_cpanm':
@@ -57,7 +58,8 @@ class perlbrew (
   }
 
   exec { 'install_modules':
-    command   => "/bin/su $user -c - \"source /home/${user}/perl5/perlbrew/etc/bashrc; cd \$HOME; cpanm ${perl_modules}\"",
+    cwd       => "/home/${user}",
+    command   => "/bin/su $user -c - \"source /home/${user}/perl5/perlbrew/etc/bashrc; cpanm ${perl_modules}\"",
     require   => Exec['install_cpanm'],
     timeout   => '0',
   }
