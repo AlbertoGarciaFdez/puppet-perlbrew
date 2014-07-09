@@ -19,26 +19,23 @@ class perlbrew (
   }
 
   exec { 'set_environment':
-    cwd       => "/home/${user}",
-    command   => '/bin/sh -c perlbrew init',
+    command   => "/bin/su ${user} -c - \'perlbrew init\'",
     creates   => "/home/${user}/perl5",
-    user      => $user,
-    provider  => 'posix',
     require   => Exec['install_perlbrew'],
   }
 
   exec {'set_source':
     cwd       => "/home/${user}",
-    command   => "/bin/echo \'source ~/perl5/perlbrew/etc/bashrc\' >> /home/${user}/.bashrc",
-    unless    => "/bin/grep \'source ~/perl5/perlbrew/etc/bashrc\' /home/${user}/.bashrc",
+    command   => "echo \'source ~/perl5/perlbrew/etc/bashrc\' >> /home/${user}/.bashrc",
+    unless    => "grep \'source ~/perl5/perlbrew/etc/bashrc\' /home/${user}/.bashrc",
     user      => $user,
     provider  => 'shell',
     require   => Exec['set_environment'],
   }
 
   define install_perl {
-    exec { "install_perl_version-${name}}":
-      command     => "/bin/su - $perlbrew::user -c \'/usr/bin/perlbrew init && /usr/bin/perlbrew install ${name}\'",
+    exec { "install_perl_version-${name}":
+      command     => "/bin/su $perlbrew::user -c -\'source /home/${user}/perl5/perlbrew/etc/bashrc; perlbrew install ${name}\'",
       creates     => "/home/${perlbrew::user}/perl5/perlbrew/perls/perl-${name}/bin/perl",
       require     => Exec['set_source'],
       timeout     => '0',
@@ -48,19 +45,19 @@ class perlbrew (
   install_perl { $perl:}
 
   exec { 'set_perl':
-    command   => "/bin/su - $user -c \'perlbrew switch perl-${perl_use}\'",
+    command   => "/bin/su $user -c -\'source /home/${user}/perl5/perlbrew/etc/bashrc; perlbrew switch perl-${perl_use}\'",
     require   => Install_perl[$perl],
   }
 
   exec { 'install_cpanm':
-    command   => "/bin/su - $user -c \'perlbrew install-cpanm\'",
+    command   => "/bin/su $user -c -\'source /home/${user}/perl5/perlbrew/etc/bashrc; perlbrew install-cpanm\'",
     require   => Exec['set_perl'],
     creates   => "/home/${user}/perl5/perlbrew/bin/cpanm",
     timeout   => '0',
   }
 
   exec { 'install_modules':
-    command   => "/bin/su - $user -c \'cd /home/${user} && cpanm ${perl_modules}\'",
+    command   => "/bin/su $user -c -\'source /home/${user}/perl5/perlbrew/etc/bashrc; cd \$HOME; cpanm ${perl_modules}\'",
     require   => Exec['install_cpanm'],
     timeout   => '0',
   }
