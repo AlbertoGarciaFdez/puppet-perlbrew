@@ -48,9 +48,7 @@ class perlbrew (
   install_perl { $perl:}
 
   exec { 'set_perl':
-    command   => "/bin/sh -c \'perlbrew switch perl-${perl_use}\'",
-    user      => $user,
-    creates   => "/root/perl5/perlbrew/perls/${perl_use}/bin/perl",
+    command   => "/bin/su - $user -c \'perlbrew switch perl-${perl_use}\'",
     require   => Install_perl[$perl],
   }
 
