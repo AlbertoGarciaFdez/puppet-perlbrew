@@ -34,7 +34,7 @@ class perlbrew (
   }
 
   define install_perl {
-    exec { "install_perl_version-${name}":
+    exec { "install_perl_version_${name}":
       command     => "/bin/su $perlbrew::user -c - \"source /home/${user}/perl5/perlbrew/etc/bashrc; perlbrew install ${name}\"",
       creates     => "/home/${perlbrew::user}/perl5/perlbrew/perls/perl-${name}/bin/perl",
       require     => Exec['set_source'],
@@ -58,7 +58,7 @@ class perlbrew (
   }
 
   define install_modules {
-    exec { 'install_modules':
+    exec { "install_module_${name}":
       cwd       => "/home/${user}",
       command   => "/bin/su $user -c - \"source /home/${user}/perl5/perlbrew/etc/bashrc; cpanm ${perl_modules}\"",
       require   => Exec['install_cpanm'],
