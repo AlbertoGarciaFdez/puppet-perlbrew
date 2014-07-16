@@ -2,7 +2,7 @@ class perlbrew (
 
   $perl,
   $perl_use,
-  $perl_modules,
+  $cpanm_modules,
   $debian_packages,
   $user,
 
@@ -57,10 +57,14 @@ class perlbrew (
     timeout   => '0',
   }
 
-  exec { 'install_modules':
-    cwd       => "/home/${user}",
-    command   => "/bin/su $user -c - \"source /home/${user}/perl5/perlbrew/etc/bashrc; cpanm ${perl_modules}\"",
-    require   => Exec['install_cpanm'],
-    timeout   => '0',
+  define install_modules {
+    exec { 'install_modules':
+      cwd       => "/home/${user}",
+      command   => "/bin/su $user -c - \"source /home/${user}/perl5/perlbrew/etc/bashrc; cpanm ${perl_modules}\"",
+      require   => Exec['install_cpanm'],
+      timeout   => '0',
+    }
   }
+
+  install_modules { $cpanm_modules: }
 }
