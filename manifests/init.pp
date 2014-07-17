@@ -59,7 +59,7 @@ class perlbrew (
 
   define install_modules {
     exec { "install_module_${name}":
-      cwd       => "/home/${perlbrw::user}",
+      cwd       => "/home/${perlbrew::user}",
       command   => "/bin/su ${perlbrew::user} -c - \"source /home/${user}/perl5/perlbrew/etc/bashrc; cpanm ${name}\"",
       require   => Exec['install_cpanm'],
       timeout   => '0',
