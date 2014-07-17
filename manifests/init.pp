@@ -4,7 +4,7 @@ class perlbrew (
   $perl_use,
   $cpanm_modules,
   $debian_packages,
-  $user,
+  $user
 
   ) {
 
