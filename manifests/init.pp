@@ -13,7 +13,7 @@ class perlbrew (
   exec { 'install_perlbrew':
     command   => 'sudo apt-get install perlbrew -y',
     provider  => 'shell',
-    user      => ${user},
+    user      => "${user}",
     creates   => '/usr/bin/perlbrew',
     require   => Package[$debian_packages],
   }
@@ -28,7 +28,7 @@ class perlbrew (
     cwd       => "/home/${user}",
     command   => "echo \'source ~/perl5/perlbrew/etc/bashrc\' >> /home/${user}/.bashrc",
     unless    => "grep \'source ~/perl5/perlbrew/etc/bashrc\' /home/${user}/.bashrc",
-    user      => ${user},
+    user      => "${user}",
     provider  => 'shell',
     require   => Exec['set_environment'],
   }
