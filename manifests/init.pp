@@ -66,5 +66,5 @@ class perlbrew (
     }
   }
 
-  if defined ($cpanm_modules) { install_modules { $cpanm_modules: } }
+  if ($cpanm_modules != ' ') { install_modules { $cpanm_modules: } }
 }
