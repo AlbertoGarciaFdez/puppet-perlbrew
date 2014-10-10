@@ -26,7 +26,7 @@ class perlbrew (
 
   exec {'set_source':
     cwd       => "/home/${user}",
-    command   => "echo \'source ~/perl5/perlbrew/etc/bashrc\' >> /home/${user}/.bashrc",
+    command   => "/bin/echo \'source ~/perl5/perlbrew/etc/bashrc\' >> /home/${user}/.bashrc",
     unless    => "/bin/grep \'source ~/perl5/perlbrew/etc/bashrc\' /home/${user}/.bashrc",
     user      => "${user}",
     provider  => 'shell',
