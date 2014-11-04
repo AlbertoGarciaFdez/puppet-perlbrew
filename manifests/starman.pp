@@ -1,4 +1,4 @@
-class starman (
+class perlbrew::starman (
 
   $scripts,
   $workers,
