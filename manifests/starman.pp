@@ -3,7 +3,7 @@ class perlbrew::starman (
   $scripts,
   $workers,
   $user,
-  $gorup,
+  $group,
   $app,
   $name,
 
