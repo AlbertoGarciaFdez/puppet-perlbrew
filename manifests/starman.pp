@@ -17,7 +17,7 @@ class starman (
 
   exec {'add_daemon':
     command => '/usr/sbin/update-rc.d starman defaults',
-    cwd => '/etc/init.d'
+    cwd => '/etc/init.d',
     require => File ['/etc/init.d/starman']
   }
 
