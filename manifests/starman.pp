@@ -4,8 +4,7 @@ class perlbrew::starman (
   $workers,
   $user,
   $group,
-  $app,
-  $name,
+  $app
 
 ) {
 
