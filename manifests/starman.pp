@@ -10,7 +10,7 @@ class perlbrew::starman (
 
   file {'/etc/init.d/starman':
     mode    => 744,
-    content => template('private_files/starman.erb'),
+    content => template('perlbrew/starman.erb'),
     notify  => Service['starman']
   }
 

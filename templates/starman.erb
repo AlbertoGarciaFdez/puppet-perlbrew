@@ -1,0 +1,45 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          starman
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start starman daemon at boot time
+# Description:       Enable service provided by daemon.
+### END INIT INFO
+
+scripts=<%= scripts %>
+pidfile=/tmp/starman.pid
+workers=<%= workers %>
+user=<%= user %>
+group=<%= user %>
+app=<%=app %>
+name=starman
+
+case "$1" in
+    start)
+        echo "Starting Starman server ..."
+        $app --preload-app -E deployment --workers $workers -D --pid $pidfile $scripts --listen /tmp/starman.sock --listen :5000 & > /dev/null
+    ;;
+    stop)
+        if [ -f $pidfile ]; then
+            echo "Stopping Starman server..."
+            pid=`cat $pidfile`
+            if [ ! -z "`ps -f -p $pid | grep -v grep | grep 'starman'`" ]; then
+                kill $pid
+            fi
+        else
+            echo "Starman is not running... Aborting now."
+        fi
+    ;;
+    restart)
+        $0 stop
+        sleep 1
+        $0 start
+    ;;
+    *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+esac
+exit 0
