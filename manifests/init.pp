@@ -72,10 +72,9 @@ class perlbrew (
   if ($bundle != 'false') {
 
     file { 'bundle':
-      path    => "/home/${perlbrew::user}/.cpan/Bundle/bundle",
+      path    => "/home/${user}/.cpan/Bundle/bundle",
       source  => "puppet:///$bundle",
-      user    => $user,
-      group   => $user,
+      owner   => $user,
     }
 
     exec { 'install_bundle':
