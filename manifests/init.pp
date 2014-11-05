@@ -79,7 +79,7 @@ class perlbrew (
     }
 
     exec { 'install_bundle':
-      command => "bin/su ${perlbrew::user} -c - \"source /home/${perlbrew::user}/perl5/perlbrew/etc/bashrc; perl -MCPAN -e 'install Bundle::bundle'\"";
+      command => "bin/su ${perlbrew::user} -c - \"source /home/${perlbrew::user}/perl5/perlbrew/etc/bashrc; perl -MCPAN -e 'install Bundle::bundle'\"",
       timeout => '0',
     }
   }
