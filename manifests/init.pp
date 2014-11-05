@@ -2,6 +2,7 @@ class perlbrew (
 
   $perl,
   $perl_use,
+  $bundle,
   $cpanm_modules,
   $debian_packages,
   $user
@@ -67,4 +68,18 @@ class perlbrew (
   }
 
   if ($cpanm_modules != 'false') { install_modules { $cpanm_modules: } }
+
+  if ($bundle != 'false') {
+
+    file { 'bundle':
+      path    => "/home/${user}/.cpan/Bundle/bundle",
+      source  => "puppet:///$bundle",
+      user    => $user,
+      group   => $user,
+    }
+
+    exec { 'install_bundle':
+      command => "bin/su ${perlbrew::user} -c - \"source /home/${perlbrew::user}/perl5/perlbrew/etc/bashrc; perl -MCPAN -e 'install Bundle::bundle'\"";
+      timeout => '0',
+    }
 }
