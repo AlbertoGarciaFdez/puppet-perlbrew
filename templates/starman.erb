@@ -14,7 +14,7 @@ pidfile=/tmp/starman.pid
 workers=<%= workers %>
 user=<%= user %>
 group=<%= user %>
-app=<%=app %>
+app=`which starman`
 name=starman
 
 case "$1" in

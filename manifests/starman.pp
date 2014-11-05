@@ -3,8 +3,7 @@ class perlbrew::starman (
   $scripts,
   $workers,
   $user,
-  $group,
-  $app
+  $group
 
 ) {
 
@@ -25,5 +24,10 @@ class perlbrew::starman (
     ensure      => running,
     hasrestart  => true,
     require     => Exec['add_daemon'],
+  }
+
+  #Module sudo https://github.com/example42/puppet-sudo required
+  sudo::directive { "${user}":
+    content =>  "${user} ALL=NOPASSWD: /etc/init.d/starman",
   }
 }
