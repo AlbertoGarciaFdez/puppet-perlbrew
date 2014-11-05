@@ -72,7 +72,7 @@ class perlbrew (
   if ($bundle != 'false') {
 
     file { 'bundle':
-      path    => "/home/${user}/.cpan/Bundle/bundle",
+      path    => "/home/${user}/.cpan/Bundle/bundle.pm",
       source  => "puppet:///$bundle",
       owner   => $user,
     }
