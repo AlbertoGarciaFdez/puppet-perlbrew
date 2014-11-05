@@ -14,7 +14,7 @@ pidfile=/tmp/starman.pid
 workers=<%= workers %>
 user=<%= user %>
 group=<%= user %>
-app=`which starman`
+app=`/bin/su $user -c - "source /home/$user/perl5/perlbrew/etc/bashrc; which starman"`
 name=starman
 
 case "$1" in
